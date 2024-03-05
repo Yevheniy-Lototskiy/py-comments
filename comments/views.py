@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 from comments.models import Comment
-from comments.serializers import CommentSerializer, CommentListSerializer
+from comments.serializers import CommentSerializer, CommentListSerializer, CommentDetailSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -19,5 +19,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return CommentListSerializer
+
+        if self.action == "update":
+            return CommentDetailSerializer
 
         return CommentSerializer

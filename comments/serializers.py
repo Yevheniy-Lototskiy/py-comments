@@ -31,3 +31,16 @@ class CommentListSerializer(CommentSerializer):
         serializer = self.__class__(replies, many=True)
 
         return serializer.data
+
+
+class CommentDetailSerializer(CommentSerializer):
+    class Meta:
+        model = Comment
+        fields = "__all__"
+        read_only_fields = (
+            "username",
+            "email",
+            "pub_date",
+            "homepage",
+            "parent_comment",
+        )
