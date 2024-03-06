@@ -3,13 +3,8 @@ from rest_framework import serializers
 from comments.models import Comment
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = "__all__"
-
-
-class CommentListSerializer(CommentSerializer):
+class CommentListSerializer(serializers.ModelSerializer):
+    # Shows all comments that have the parent_comment_id of this comment
     replies = serializers.SerializerMethodField()
 
     class Meta:
@@ -33,7 +28,7 @@ class CommentListSerializer(CommentSerializer):
         return serializer.data
 
 
-class CommentDetailSerializer(CommentSerializer):
+class CommentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = "__all__"
@@ -42,5 +37,17 @@ class CommentDetailSerializer(CommentSerializer):
             "email",
             "pub_date",
             "homepage",
+            "parent_comment",
+        )
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = (
+            "username",
+            "email",
+            "homepage",
+            "text",
             "parent_comment",
         )
