@@ -1,3 +1,4 @@
+from rest_captcha.serializers import RestCaptchaSerializer
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
@@ -7,7 +8,8 @@ from rest_framework.views import APIView
 from comments.models import Comment
 from comments.serializers import (
     CommentListSerializer,
-    CommentDetailSerializer, CommentCreateSerializer,
+    CommentDetailSerializer,
+    CommentCreateSerializer,
 )
 
 
@@ -47,6 +49,13 @@ class CommentListView(APIView):
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
+        captcha = request.data.get('captcha')
+        if not RestCaptchaSerializer(data=captcha).is_valid():
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={"message": "Invalid captcha value'"}
+            )
+
         serializer = CommentCreateSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
