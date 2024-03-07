@@ -1,3 +1,4 @@
+from rest_captcha.serializers import RestCaptchaSerializer
 from rest_framework import serializers
 
 from comments.models import Comment
@@ -42,6 +43,8 @@ class CommentDetailSerializer(serializers.ModelSerializer):
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
+    captcha = RestCaptchaSerializer(read_only=True)
+
     class Meta:
         model = Comment
         fields = (
@@ -50,4 +53,5 @@ class CommentCreateSerializer(serializers.ModelSerializer):
             "homepage",
             "text",
             "parent_comment",
+            "captcha",
         )
