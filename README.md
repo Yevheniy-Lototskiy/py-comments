@@ -26,3 +26,4 @@ docker-compose up
 - Filtering by values or fields
 - CAPTCHA
 - WebSocket
+- Redis
