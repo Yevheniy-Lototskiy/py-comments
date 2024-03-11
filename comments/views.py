@@ -72,7 +72,7 @@ class CommentDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk: int):
-        comment = Comment.objects.get(pk=pk)
+        comment = self.get_object(pk=pk)
 
         serializer = CommentDetailSerializer(comment, data=request.data, partial=True)
         if serializer.is_valid():
@@ -80,3 +80,8 @@ class CommentDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk: int):
+        comment = self.get_object(pk=pk)
+        comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
