@@ -17,9 +17,22 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("captcha/", include("rest_captcha.urls")),
     path("", include("comments.urls")),
+
+    path("doc/", SpectacularAPIView.as_view(), name="doc"),
+    path(
+        "doc/swagger/",
+        SpectacularSwaggerView.as_view(url_name="doc"),
+        name="swagger-ui",
+    ),
+    path("doc/redoc/", SpectacularRedocView.as_view(url_name="doc"), name="redoc"),
 ]
