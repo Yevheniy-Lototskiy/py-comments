@@ -18,7 +18,9 @@ When the project is successfully installed, run these commands in Terminal:
 docker-compose build
 docker-compose up
 ```
- Then you can open your browser, and go to the address: 127.0.0.1:8001/comments
+ Then you can open your browser, and go to the address: [127.0.0.1:8001/comments](127.0.0.1:8001/comments)
+
+To view all endpoints, go to the address: [127.0.0.1:8001/doc/swagger](127.0.0.1:8001/doc/swagger)
  
 ## Features
 - CRUD operations with comments
@@ -27,3 +29,4 @@ docker-compose up
 - CAPTCHA
 - WebSocket
 - Redis
+- Swagger
