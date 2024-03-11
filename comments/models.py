@@ -6,7 +6,9 @@ class Comment(models.Model):
     email = models.EmailField()
     homepage = models.URLField(null=True, blank=True)
     text = models.TextField()
-    parent_comment = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, related_name="replies")
+    parent_comment = models.ForeignKey(
+        "self", null=True, blank=True, on_delete=models.CASCADE, related_name="replies"
+    )
     pub_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:

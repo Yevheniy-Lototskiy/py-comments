@@ -15,7 +15,7 @@ from comments.serializers import (
 
 class CustomPagination(PageNumberPagination):
     page_size = 25
-    page_size_query_param = 'page_size'
+    page_size_query_param = "page_size"
     max_page_size = 100
 
 
@@ -33,7 +33,7 @@ class CommentListView(APIView):
             comments = comments.order_by(sort_by)
 
         # Filtering objects by values
-        username = request.query_params.get('username')
+        username = request.query_params.get("username")
         if username:
             comments = comments.filter(username=username)
         email = request.query_params.get("email")
@@ -49,11 +49,11 @@ class CommentListView(APIView):
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
-        captcha = request.data.get('captcha')
+        captcha = request.data.get("captcha")
         if not RestCaptchaSerializer(data=captcha).is_valid():
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
-                data={"message": "Invalid captcha value'"}
+                data={"message": "Invalid captcha value'"},
             )
 
         serializer = CommentCreateSerializer(data=request.data)
