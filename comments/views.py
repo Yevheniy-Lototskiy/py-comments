@@ -36,9 +36,11 @@ class CommentListView(APIView):
         username = request.query_params.get("username")
         if username:
             comments = comments.filter(username=username)
+
         email = request.query_params.get("email")
         if email:
             comments = comments.filter(email=email)
+
         pub_date = request.query_params.get("pub_date")
         if pub_date:
             comments = comments.filter(pub_date=pub_date)
@@ -46,10 +48,12 @@ class CommentListView(APIView):
         paginator = self.pagination_class()
         result_page = paginator.paginate_queryset(comments, request)
         serializer = CommentListSerializer(result_page, many=True)
+
         return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
         captcha = request.data.get("captcha")
+
         if not RestCaptchaSerializer(data=captcha).is_valid():
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
@@ -57,9 +61,11 @@ class CommentListView(APIView):
             )
 
         serializer = CommentCreateSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -72,9 +78,10 @@ class CommentDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk: int):
-        comment = Comment.objects.get(pk=pk)
 
+        comment = Comment.objects.get(pk=pk)
         serializer = CommentDetailSerializer(comment, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
